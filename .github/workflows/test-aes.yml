@@ -25,15 +25,60 @@ jobs:
         cd AES256
         # Input urut: Mode(1) -> Password -> Pesan
         echo -e "1\nRahasiaNegara\nTesPython" | python aes256_v1.py
+      
+    - name: Run Python (AES v1 - CBC Mode)
+      run: |
+        cd AES256
+        # Input urut: Mode(2) -> Password -> Pesan
+        echo -e "2\nRahasiaNegara\nTesPython" | python aes256_v1.py
+        #------------------------------------------------------------------------
 
-    # --- TEST C++ ---
+    - name: Run Python (AES v2 - ECB Mode)
+      run: |
+        cd AES256
+        # Input urut: Mode(1) -> Password -> Pesan
+        echo -e "1\nRahasiaNegara\nTesPython" | python aes256_v2.py
+      
+    - name: Run Python (AES v2 - CBC Mode)
+      run: |
+        cd AES256
+        # Input urut: Mode(2) -> Password -> Pesan
+        echo -e "2\nRahasiaNegara\nTesPython" | python aes256_v2.py
+        #------------------------------------------------------------------------
+
+    # --- TEST C++ v1 ---
     - name: Compile C++
       run: |
         cd AES256
-        g++ AES_v1.cpp -o aes_app
+        g++ AES_v1.cpp -o aes_v1_app
 
-    - name: Run C++ (AES v1 - ECB Mode - Hex Output)
+    - name: Run C++ (AES v1 - ECB Mode -  Base64 Output)
       run: |
         cd AES256
-        # Input urut: Password -> Pesan -> Mode(1=ECB) -> Output(1=Hex)
-        echo -e "RahasiaNegara\nTesCpp\n1\n1" | ./aes_app
+        # Input urut: Password -> Pesan -> Mode(1=ECB) -> Output(2=Base64)
+        echo -e "RahasiaNegara\nTesCpp\n1\n2" | ./aes_v1_app
+        
+    - name: Run C++ (AES v1 - CBC Mode -  Base64 Output)
+      run: |
+        cd AES256
+        # Input urut: Password -> Pesan -> Mode(1=ECB) -> Output(2=Base64)
+        echo -e "RahasiaNegara\nTesCpp\n2\n1\n2" | ./aes_v1_app
+        #------------------------------------------------------------------------
+
+     # --- TEST C++ v2 ---
+    - name: Compile C++
+      run: |
+        cd AES256
+        g++ AES_v2.cpp -o aes_v2_app
+
+    - name: Run C++ (AES v2 - ECB Mode -  Base64 Output)
+      run: |
+        cd AES256
+        # Input urut: Password -> Pesan -> Mode(1=ECB) -> Output(2=Base64)
+        echo -e "RahasiaNegara\nTesCpp\n1\n2" | ./aes_v2_app
+        
+    - name: Run C++ (AES v2 - CBC Mode -  Base64 Output)
+      run: |
+        cd AES256
+        # Input urut: Password -> Pesan -> Mode(1=ECB) -> Output(2=Base64)
+        echo -e "RahasiaNegara\nTesCpp\n2\n1\n2" | ./aes_v2_app
