@@ -1,0 +1,39 @@
+name: Uji Otomatis AES-256
+
+on: [push]
+
+jobs:
+  test-performance:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Ambil Kode (Checkout)
+      uses: actions/checkout@v3
+
+    # --- TEST PYTHON ---
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install Library Python
+      run: |
+        pip install pycryptodome
+
+    - name: Run Python (AES v1 - ECB Mode)
+      run: |
+        cd AES256
+        # Input urut: Mode(1) -> Password -> Pesan
+        echo -e "1\nRahasiaNegara\nTesPython" | python aes256_v1.py
+
+    # --- TEST C++ ---
+    - name: Compile C++
+      run: |
+        cd AES256
+        g++ AES_v1.cpp -o aes_app
+
+    - name: Run C++ (AES v1 - ECB Mode - Hex Output)
+      run: |
+        cd AES256
+        # Input urut: Password -> Pesan -> Mode(1=ECB) -> Output(1=Hex)
+        echo -e "RahasiaNegara\nTesCpp\n1\n1" | ./aes_app
